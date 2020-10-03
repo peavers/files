@@ -1,0 +1,24 @@
+<h1 mat-dialog-title>New profile</h1>
+
+<div mat-dialog-content>
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Display name</mat-label>
+      <input matInput [(ngModel)]="profile.name" autocomplete="off" />
+      <mat-hint>Display name of the profile.</mat-hint>
+    </mat-form-field>
+  </p>
+
+  <p>
+    <mat-form-field appearance="outline">
+      <mat-label>Source directory</mat-label>
+      <input matInput [(ngModel)]="profile.monitorDirectory" autocomplete="off" />
+      <mat-hint>Source directory to clean and copy media files from.</mat-hint>
+    </mat-form-field>
+  </p>
+
+  <div mat-dialog-actions>
+    <button mat-button (click)="onCancel()">Cancel</button>
+    <button mat-raised-button [mat-dialog-close]="profile" color="primary">Save</button>
+  </div>
+</div>

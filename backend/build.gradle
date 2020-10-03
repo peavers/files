@@ -1,0 +1,56 @@
+apply plugin: 'org.springframework.boot'
+apply plugin: 'com.google.cloud.tools.jib'
+
+repositories {
+    mavenCentral()
+    maven {
+        url "https://repo.microstream.one/repository/maven-public/"
+    }
+}
+
+dependencies {
+    compile project(':webapp')
+
+    // Spring
+    implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+    // Persistence
+    implementation 'one.microstream:storage.embedded:04.00.00-MS-GA'
+    implementation 'one.microstream:storage.embedded.configuration:04.00.00-MS-GA'
+
+    // Apache
+    implementation 'org.apache.commons:commons-lang3:3.11'
+    implementation 'commons-io:commons-io:2.8.0'
+
+    // Google
+    implementation 'com.google.guava:guava:29.0-jre'
+
+    // Dev
+    compileOnly 'org.projectlombok:lombok'
+    annotationProcessor 'org.projectlombok:lombok'
+    annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+}
+
+jib {
+    to {
+        image = 'peavers/files'
+        auth {
+            username = System.getenv("DOCKER_USER")
+            password = System.getenv("DOCKER_PASS")
+        }
+        tags = ["latest"]
+    }
+    container {
+        jvmFlags = ['-XX:+UseContainerSupport']
+        labels = [maintainer: 'Chris Turner<chris@codacy.com>']
+    }
+}
+
+spotless {
+    java {
+        licenseHeader '/* Licensed under Apache-2.0 */'
+        importOrder 'java', 'javax', 'org', 'com', ''
+        removeUnusedImports()
+        googleJavaFormat()
+    }
+}

@@ -1,0 +1,27 @@
+version: '3.4'
+services:
+
+  terrible-mongo-express:
+    image: mongo-express:latest
+    container_name: terrible-mongo-express
+    environment:
+      - ME_CONFIG_MONGODB_SERVER=terrible-mongo
+    ports:
+      - 9000:8081
+    links:
+      - terrible-mongo
+
+  terrible-mongo:
+    image: mongo:latest
+    container_name: terrible-mongo
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    logging:
+      options:
+        max-size: "2m"
+        max-file: "5"
+
+volumes:
+  mongo-data:
