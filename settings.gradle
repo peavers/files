@@ -1,4 +1,12 @@
 rootProject.name = 'files'
 
 include 'backend'
-include 'webapp'
+
+include 'rule-app'
+include 'rule-frontend'
+include 'rule-data'
+include 'rule-common'
+
+include 'rule-copy-media'
+include 'rule-delete-files'
+include 'rule-delete-directories'

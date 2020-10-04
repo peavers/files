@@ -1,0 +1,14 @@
+bootJar {
+    enabled = false
+}
+
+jar {
+    enabled = true
+}
+
+dependencies {
+    implementation project(':rule-data')
+    implementation project(':rule-common')
+
+    implementation 'com.google.guava:guava:29.0-jre'
+}

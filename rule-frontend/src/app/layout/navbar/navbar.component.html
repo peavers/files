@@ -1,0 +1,13 @@
+<mat-toolbar color="primary" class="mat-elevation-z6">
+  <button mat-icon-button routerLink="/">
+    <mat-icon>home</mat-icon>
+  </button>
+
+  <span class="spacer"></span>
+
+  <app-theme-switcher [options]="options$ | async" (themeChange)="themeChangeHandler($event)"></app-theme-switcher>
+
+  <button mat-button (click)="goToGitHub()">
+    <img class="github-icon" src="/assets/img/homepage/github-circle-white-transparent.svg" /> GitHub
+  </button>
+</mat-toolbar>

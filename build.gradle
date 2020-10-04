@@ -18,17 +18,78 @@ jar {
 	enabled = false
 }
 
-project('backend') {
-	apply plugin: 'org.springframework.boot'
-	apply plugin: 'io.spring.dependency-management'
-	apply plugin: 'com.diffplug.spotless'
-	apply plugin: 'java'
-}
+//sonarqube {
+//	properties {
+//		property "sonar.projectKey", "peavers_files"
+//		property "sonar.organization", "peavers-github"
+//		property "sonar.host.url", "https://sonarcloud.io"
+//	}
+//}
 
-sonarqube {
-	properties {
-		property "sonar.projectKey", "peavers_files"
-		property "sonar.organization", "peavers-github"
-		property "sonar.host.url", "https://sonarcloud.io"
-	}
+def javaProjects = [
+		'rule-copy-media',
+		'rule-delete-files',
+		'rule-delete-directories',
+		'rule-app',
+		'rule-data',
+		'rule-common'
+]
+
+javaProjects.each {
+	name ->
+
+		project(":$name") {
+
+			apply plugin: 'org.springframework.boot'
+			apply plugin: 'io.spring.dependency-management'
+			apply plugin: 'com.diffplug.spotless'
+			apply plugin: 'java'
+
+			group = 'com.codacy.'
+			version = '0.0.1-SNAPSHOT'
+			sourceCompatibility = '11'
+
+			repositories {
+				mavenCentral()
+			}
+
+			ext {
+				set('springCloudVersion', "Hoxton.SR6")
+			}
+
+			dependencies {
+				// Spring
+				implementation 'org.springframework.boot:spring-boot-starter-webflux'
+
+				// Apache
+				implementation 'org.apache.commons:commons-lang3:3.11'
+				implementation 'commons-io:commons-io:2.8.0'
+
+				// Dev
+				compileOnly 'org.projectlombok:lombok'
+				annotationProcessor 'org.projectlombok:lombok'
+				annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
+			}
+
+			test {
+				useJUnitPlatform()
+			}
+
+			spotless {
+				java {
+					licenseHeader '/* Licensed under Apache-2.0 */'
+					importOrder 'java', 'javax', 'org', 'com', ''
+					removeUnusedImports()
+					googleJavaFormat()
+				}
+			}
+
+			dependencyManagement {
+				imports {
+					mavenBom "org.springframework.cloud:spring-cloud-dependencies:${springCloudVersion}"
+				}
+			}
+
+			build.dependsOn spotlessJavaApply
+		}
 }
