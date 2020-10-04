@@ -14,7 +14,7 @@ import {RuleDto} from "../../../../core/domain/modules";
 export class DefaultComponent implements OnInit, OnDestroy {
   @ViewChild(MatSort, {static: true}) sort: MatSort;
 
-  displayedColumns: string[] = ['name', 'type', 'enabled'];
+  displayedColumns: string[] = ['name', 'type', 'enabled', "actions"];
 
   dataSource = new MatTableDataSource();
 
@@ -44,4 +44,7 @@ export class DefaultComponent implements OnInit, OnDestroy {
     this.profileService.editRule(rule);
   }
 
+  deleteRule(rule: RuleDto) {
+    this.profileService.deleteRule(rule);
+  }
 }

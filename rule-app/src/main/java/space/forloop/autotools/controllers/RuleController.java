@@ -24,61 +24,66 @@ import java.util.stream.Stream;
 @RequestMapping("/api/root/rules")
 public class RuleController {
 
-  private final RuleService ruleService;
+    private final RuleService ruleService;
 
-  @PostMapping
-  public Mono<?> save(@RequestBody final RuleDto ruleDto) {
+    @PostMapping
+    public Mono<?> save(@RequestBody final RuleDto ruleDto) {
 
-    switch (RuleEnum.get(ruleDto.getType())) {
-      case COPY_MEDIA_FILES:
-        return ruleService
-            .saveRuleCopyMedia(
-                RuleCopyMediaFiles.builder()
-                    .enabled(ruleDto.isEnabled())
-                    .name(ruleDto.getName())
-                    .sourceDirectory(ruleDto.getSourceDirectory())
-                    .targetDirectory(ruleDto.getTargetDirectory())
-                    .build())
-            .map(RuleDto::new);
-      case DELETE_EMPTY_DIRECTORIES:
-        return ruleService
-            .saveRuleDeleteEmptyDirectories(
-                RuleDeleteEmptyDirectories.builder()
-                    .enabled(ruleDto.isEnabled())
-                    .name(ruleDto.getName())
-                    .sourceDirectory(ruleDto.getSourceDirectory())
-                    .build())
-            .map(RuleDto::new);
-      case DELETE_FILES:
-        return ruleService
-            .saveRuleDeleteFiles(
-                RuleDeleteFiles.builder()
-                    .enabled(ruleDto.isEnabled())
-                    .name(ruleDto.getName())
-                    .sourceDirectory(ruleDto.getSourceDirectory())
-                    .lessThanThreshold(ruleDto.getLessThanThreshold())
-                    .greaterThanThreshold(ruleDto.getGreaterThanThreshold())
-                    .build())
-            .map(RuleDto::new);
-      default:
+        switch (RuleEnum.get(ruleDto.getType())) {
+            case COPY_MEDIA_FILES:
+                return ruleService
+                        .saveRuleCopyMedia(
+                                RuleCopyMediaFiles.builder()
+                                        .enabled(ruleDto.isEnabled())
+                                        .name(ruleDto.getName())
+                                        .sourceDirectory(ruleDto.getSourceDirectory())
+                                        .targetDirectory(ruleDto.getTargetDirectory())
+                                        .build())
+                        .map(RuleDto::new);
+            case DELETE_EMPTY_DIRECTORIES:
+                return ruleService
+                        .saveRuleDeleteEmptyDirectories(
+                                RuleDeleteEmptyDirectories.builder()
+                                        .enabled(ruleDto.isEnabled())
+                                        .name(ruleDto.getName())
+                                        .sourceDirectory(ruleDto.getSourceDirectory())
+                                        .build())
+                        .map(RuleDto::new);
+            case DELETE_FILES:
+                return ruleService
+                        .saveRuleDeleteFiles(
+                                RuleDeleteFiles.builder()
+                                        .enabled(ruleDto.isEnabled())
+                                        .name(ruleDto.getName())
+                                        .sourceDirectory(ruleDto.getSourceDirectory())
+                                        .lessThanThreshold(ruleDto.getLessThanThreshold())
+                                        .greaterThanThreshold(ruleDto.getGreaterThanThreshold())
+                                        .build())
+                        .map(RuleDto::new);
+            default:
+                return Mono.empty();
+        }
+    }
+
+    @GetMapping
+    public Flux<Object> findAll() {
+
+        return Flux.fromStream(
+                Stream.of(
+                        ruleService.findAllRuleCopyMedia().stream()
+                                .map(RuleDto::new)
+                                .collect(Collectors.toSet()),
+                        ruleService.findAllRuleDeleteEmptyDirectories().stream()
+                                .map(RuleDto::new)
+                                .collect(Collectors.toSet()),
+                        ruleService.findAllRuleDeleteFiles().stream()
+                                .map(RuleDto::new)
+                                .collect(Collectors.toSet()))
+                        .flatMap(Collection::stream));
+    }
+
+    @DeleteMapping("{id}")
+    public Mono<Void> delete(@PathVariable final String id) {
         return Mono.empty();
     }
-  }
-
-  @GetMapping
-  public Flux<Object> findAll() {
-
-    return Flux.fromStream(
-        Stream.of(
-                ruleService.findAllRuleCopyMedia().stream()
-                    .map(RuleDto::new)
-                    .collect(Collectors.toSet()),
-                ruleService.findAllRuleDeleteEmptyDirectories().stream()
-                    .map(RuleDto::new)
-                    .collect(Collectors.toSet()),
-                ruleService.findAllRuleDeleteFiles().stream()
-                    .map(RuleDto::new)
-                    .collect(Collectors.toSet()))
-            .flatMap(Collection::stream));
-  }
 }

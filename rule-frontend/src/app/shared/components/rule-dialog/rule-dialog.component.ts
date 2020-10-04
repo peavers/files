@@ -13,6 +13,8 @@ export interface RuleDialogData {
 })
 export class RuleDialogComponent {
 
+  ruleDto: RuleDto
+
   rules = [
     {
       type: 'RuleDeleteFiles',
@@ -20,15 +22,13 @@ export class RuleDialogComponent {
     },
     {
       type: 'RuleDeleteEmptyDirectories',
-      name: 'Delete directories',
+      name: 'Delete empty directories',
     },
     {
       type: 'RuleCopyMediaFiles',
-      name: 'Copy files',
+      name: 'Copy media files',
     },
   ];
-
-  ruleDto: RuleDto
 
   constructor(private dialogRef: MatDialogRef<any>, @Inject(MAT_DIALOG_DATA) private data: RuleDialogData) {
     this.ruleDto = data.rule;

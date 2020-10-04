@@ -1,17 +1,13 @@
-
 <div class=level>
   <div class="level-left">
       <span class="mat-headline is-marginless">Rules</span>
   </div>
-
   <div class="level-right">
       <mat-slide-toggle labelPosition="after" [(ngModel)]="ruleDto.enabled">Enable</mat-slide-toggle>
   </div>
 </div>
 
-
 <div mat-dialog-content>
-
   <div class="columns">
     <div class="column">
       <mat-form-field appearance="outline">
@@ -21,7 +17,7 @@
       </mat-form-field>
     </div>
 
-    <dib class="column">
+    <div class="column">
       <mat-form-field appearance="outline">
         <mat-label>Rule type</mat-label>
         <mat-select [(ngModel)]="ruleDto.type" [(value)]="ruleDto.type">
@@ -31,14 +27,13 @@
         </mat-select>
         <mat-hint>The base operation of this rule. Cannot be changed once created.</mat-hint>
       </mat-form-field>
-    </dib>
-
+    </div>
   </div>
 
   <!-- Delete Files -->
   <div *ngIf="ruleDto.type == 'RuleDeleteFiles'">
     <mat-form-field appearance="outline">
-      <mat-label>Directory</mat-label>
+      <mat-label>Source directory</mat-label>
       <input matInput autocomplete="off" [(ngModel)]="ruleDto.sourceDirectory"/>
       <mat-hint>Directory where files will be deleted from (recursive function)</mat-hint>
     </mat-form-field>
@@ -53,7 +48,7 @@
   <!-- Delete Directories -->
   <div *ngIf="ruleDto.type == 'RuleDeleteEmptyDirectories'">
     <mat-form-field appearance="outline">
-      <mat-label>Directory</mat-label>
+      <mat-label>Source directory</mat-label>
       <input matInput autocomplete="off" [(ngModel)]="ruleDto.sourceDirectory"/>
       <mat-hint>Directory where empty directories will be deleted from (recursive function)</mat-hint>
     </mat-form-field>
