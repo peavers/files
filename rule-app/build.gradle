@@ -14,6 +14,8 @@ dependencies {
     implementation project(':rule-copy-media')
     implementation project(':rule-delete-directories')
     implementation project(':rule-delete-files')
+
+    implementation 'one.util:streamex:0.7.3'
 }
 
 jib {

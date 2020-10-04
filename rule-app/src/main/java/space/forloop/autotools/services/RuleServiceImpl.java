@@ -1,6 +1,10 @@
 /* Licensed under Apache-2.0 */
 package space.forloop.autotools.services;
 
+import java.util.Optional;
+import java.util.Set;
+import java.util.UUID;
+import java.util.function.Predicate;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -10,17 +14,19 @@ import space.forloop.data.rules.RuleCopyMediaFiles;
 import space.forloop.data.rules.RuleDeleteEmptyDirectories;
 import space.forloop.data.rules.RuleDeleteFiles;
 
-import java.util.Optional;
-import java.util.Set;
-import java.util.UUID;
-import java.util.function.Predicate;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class RuleServiceImpl implements RuleService {
 
   private final RootRepository rootRepository;
+
+  @Override
+  public Mono<Object> save(final Object object) {
+    rootRepository.store(object);
+
+    return Mono.just(object);
+  }
 
   @Override
   public Mono<RuleCopyMediaFiles> saveRuleCopyMedia(final RuleCopyMediaFiles rule) {
@@ -80,6 +86,30 @@ public class RuleServiceImpl implements RuleService {
     rules.add(rule);
     rootRepository.store(rules);
     return Mono.just(rule);
+  }
+
+  @Override
+  public Mono<Void> deleteRuleCopyMedia(final RuleCopyMediaFiles rule) {
+    findAllRuleCopyMedia().removeIf(r -> r.getId().equals(rule.getId()));
+    save(findAllRuleCopyMedia());
+
+    return Mono.empty();
+  }
+
+  @Override
+  public Mono<Void> deleteRuleDeleteEmptyDirectories(final RuleDeleteEmptyDirectories rule) {
+    findAllRuleDeleteEmptyDirectories().removeIf(r -> r.getId().equals(rule.getId()));
+    save(findAllRuleDeleteEmptyDirectories());
+
+    return Mono.empty();
+  }
+
+  @Override
+  public Mono<Void> deleteRuleDeleteFiles(final RuleDeleteFiles rule) {
+    findAllRuleDeleteFiles().removeIf(r -> r.getId().equals(rule.getId()));
+    save(findAllRuleDeleteFiles());
+
+    return Mono.empty();
   }
 
   @Override

@@ -75,7 +75,7 @@ export class RuleService {
 
   delete(rule: RuleDto): void {
     this.rules$.next([...this.rules$.value.filter((r: RuleDto) => r.id != rule.id)]);
-    this.httpClient.delete(`${this.endpoint}/${rule.id}`).subscribe();
+    this.httpClient.post(`${this.endpoint}/delete`, rule).subscribe();
 
     this.snackbar.open('Rule deleted');
   }

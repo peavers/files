@@ -9,11 +9,19 @@ import space.forloop.data.rules.RuleDeleteFiles;
 
 public interface RuleService {
 
+  Mono<Object> save(Object object);
+
   Mono<RuleCopyMediaFiles> saveRuleCopyMedia(RuleCopyMediaFiles rule);
 
   Mono<RuleDeleteEmptyDirectories> saveRuleDeleteEmptyDirectories(RuleDeleteEmptyDirectories rule);
 
   Mono<RuleDeleteFiles> saveRuleDeleteFiles(RuleDeleteFiles rule);
+
+  Mono<Void> deleteRuleCopyMedia(RuleCopyMediaFiles rule);
+
+  Mono<Void> deleteRuleDeleteEmptyDirectories(RuleDeleteEmptyDirectories rule);
+
+  Mono<Void> deleteRuleDeleteFiles(RuleDeleteFiles rule);
 
   Set<RuleCopyMediaFiles> findAllRuleCopyMedia();
 
