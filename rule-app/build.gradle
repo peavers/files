@@ -9,7 +9,8 @@ repositories {
 }
 
 dependencies {
-//    compile project(':webapp')
+    implementation project(':rule-frontend')
+
     implementation project(':rule-data')
     implementation project(':rule-copy-media')
     implementation project(':rule-delete-directories')
