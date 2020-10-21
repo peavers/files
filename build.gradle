@@ -1,7 +1,7 @@
 plugins {
 	id 'org.springframework.boot' version '2.3.4.RELEASE'
 	id 'io.spring.dependency-management' version '1.0.10.RELEASE'
-	id 'com.diffplug.spotless' version '5.6.1'
+	id 'com.diffplug.spotless' version '5.7.0'
 	id 'com.google.cloud.tools.jib' version '2.6.0' apply false
 	id 'application'
 	id 'java'
