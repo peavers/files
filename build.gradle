@@ -30,7 +30,6 @@ javaProjects.each {
 	name ->
 
 		project(":$name") {
-
 			apply plugin: 'org.springframework.boot'
 			apply plugin: 'io.spring.dependency-management'
 			apply plugin: 'com.diffplug.spotless'
@@ -42,6 +41,9 @@ javaProjects.each {
 
 			repositories {
 				mavenCentral()
+				maven {
+					url "https://repo.microstream.one/repository/maven-public"
+				}
 			}
 
 			ext {
@@ -60,10 +62,6 @@ javaProjects.each {
 				compileOnly 'org.projectlombok:lombok'
 				annotationProcessor 'org.projectlombok:lombok'
 				annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'
-			}
-
-			test {
-				useJUnitPlatform()
 			}
 
 			spotless {

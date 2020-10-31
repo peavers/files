@@ -6,13 +6,6 @@ jar {
     enabled = true
 }
 
-repositories {
-    mavenCentral()
-    maven {
-        url "https://repo.microstream.one/repository/maven-public/"
-    }
-}
-
 dependencies {
     implementation 'one.microstream:storage.embedded:04.00.00-MS-GA'
     implementation 'one.microstream:storage.embedded.configuration:04.00.00-MS-GA'
