@@ -69,7 +69,7 @@ export class RuleService {
         this.rules$.next([...this.rules$.value, result]);
       }
 
-      this.snackbar.open('Rule deleted');
+      this.snackbar.open('Success');
     });
   }
 
@@ -77,6 +77,6 @@ export class RuleService {
     this.rules$.next([...this.rules$.value.filter((r: RuleDto) => r.id != rule.id)]);
     this.httpClient.post(`${this.endpoint}/delete`, rule).subscribe();
 
-    this.snackbar.open('Rule deleted');
+    this.snackbar.open('Success');
   }
 }

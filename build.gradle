@@ -18,12 +18,13 @@ jar {
 }
 
 def javaProjects = [
-		'rule-copy-media',
-		'rule-delete-files',
-		'rule-delete-directories',
 		'rule-app',
+		'rule-common',
+		'rule-copy-media',
 		'rule-data',
-		'rule-common'
+		'rule-delete-directories',
+		'rule-delete-files',
+		'rule-duplicate-media'
 ]
 
 javaProjects.each {

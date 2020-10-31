@@ -10,6 +10,7 @@ import lombok.RequiredArgsConstructor;
 import space.forloop.data.rules.RuleCopyMediaFiles;
 import space.forloop.data.rules.RuleDeleteEmptyDirectories;
 import space.forloop.data.rules.RuleDeleteFiles;
+import space.forloop.data.rules.RuleDuplicateMedia;
 
 @Data
 @Builder
@@ -23,4 +24,6 @@ public class RootData {
   private Set<RuleDeleteEmptyDirectories> ruleDeleteEmptyDirectories = new HashSet<>();
 
   @Builder.Default private Set<RuleCopyMediaFiles> ruleCopyMediaFiles = new HashSet<>();
+
+  @Builder.Default private Set<RuleDuplicateMedia> ruleDuplicateMedia = new HashSet<>();
 }

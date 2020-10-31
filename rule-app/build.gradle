@@ -2,12 +2,13 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'com.google.cloud.tools.jib'
 
 dependencies {
-    implementation project(':rule-frontend')
+//    implementation project(':rule-frontend')
 
     implementation project(':rule-data')
     implementation project(':rule-copy-media')
     implementation project(':rule-delete-directories')
     implementation project(':rule-delete-files')
+    implementation project(':rule-duplicate-media')
 
     implementation 'one.util:streamex:0.7.3'
 }

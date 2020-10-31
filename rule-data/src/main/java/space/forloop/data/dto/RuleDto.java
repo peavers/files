@@ -4,10 +4,7 @@ package space.forloop.data.dto;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.RequiredArgsConstructor;
-import space.forloop.data.rules.RuleCopyMediaFiles;
-import space.forloop.data.rules.RuleDeleteEmptyDirectories;
-import space.forloop.data.rules.RuleDeleteFiles;
-import space.forloop.data.rules.RuleEnum;
+import space.forloop.data.rules.*;
 
 @Data
 @AllArgsConstructor
@@ -48,12 +45,20 @@ public class RuleDto {
   }
 
   public RuleDto(final RuleDeleteFiles deleteFiles) {
-    this.type = RuleEnum.DELETE_EMPTY_DIRECTORIES.getType();
+    this.type = RuleEnum.DELETE_FILES.getType();
     this.id = deleteFiles.getId();
     this.name = deleteFiles.getName();
     this.enabled = deleteFiles.isEnabled();
     this.sourceDirectory = deleteFiles.getSourceDirectory();
     this.lessThanThreshold = deleteFiles.getLessThanThreshold();
     this.greaterThanThreshold = deleteFiles.getGreaterThanThreshold();
+  }
+
+  public RuleDto(final RuleDuplicateMedia duplicateMedia) {
+    this.type = RuleEnum.DUPLICATE_MEDIA.getType();
+    this.id = duplicateMedia.getId();
+    this.name = duplicateMedia.getName();
+    this.enabled = duplicateMedia.isEnabled();
+    this.sourceDirectory = duplicateMedia.getSourceDirectory();
   }
 }

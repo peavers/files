@@ -39,7 +39,7 @@
     </mat-form-field>
 
     <mat-form-field appearance="outline">
-      <mat-label>Size in KB to delete</mat-label>
+      <mat-label>Size in bytes to delete (1 megabyte is ~1000000 bytes)</mat-label>
       <input matInput autocomplete="off" [(ngModel)]="ruleDto.lessThanThreshold"/>
       <mat-hint>Files less than this size will be deleted</mat-hint>
     </mat-form-field>
@@ -66,6 +66,15 @@
       <mat-label>Target directory</mat-label>
       <input matInput autocomplete="off" [(ngModel)]="ruleDto.targetDirectory"/>
       <mat-hint>Where you want the files copied to</mat-hint>
+    </mat-form-field>
+  </div>
+
+  <!-- Duplicate Media -->
+  <div *ngIf="ruleDto.type == 'RuleDuplicateMedia'">
+    <mat-form-field appearance="outline">
+      <mat-label>Source directory</mat-label>
+      <input matInput autocomplete="off" [(ngModel)]="ruleDto.sourceDirectory"/>
+      <mat-hint>Where to scan for duplicates</mat-hint>
     </mat-form-field>
   </div>
 

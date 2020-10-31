@@ -13,6 +13,7 @@ import space.forloop.data.repositories.RootRepository;
 import space.forloop.data.rules.RuleCopyMediaFiles;
 import space.forloop.data.rules.RuleDeleteEmptyDirectories;
 import space.forloop.data.rules.RuleDeleteFiles;
+import space.forloop.data.rules.RuleDuplicateMedia;
 
 @Slf4j
 @Service
@@ -89,6 +90,25 @@ public class RuleServiceImpl implements RuleService {
   }
 
   @Override
+  public Mono<RuleDuplicateMedia> saveRuleDuplicateMedia(final RuleDuplicateMedia rule) {
+    final Set<RuleDuplicateMedia> rules = rootRepository.findRoot().getRuleDuplicateMedia();
+
+    final Predicate<RuleDuplicateMedia> predicate =
+        duplicateMedia -> duplicateMedia.getId().equals(rule.getId());
+    final Optional<RuleDuplicateMedia> optionalRule = rules.stream().filter(predicate).findFirst();
+
+    if (optionalRule.isEmpty()) {
+      rule.setId(UUID.randomUUID().toString());
+    } else {
+      rules.removeIf(predicate);
+    }
+
+    rules.add(rule);
+    rootRepository.store(rules);
+    return Mono.just(rule);
+  }
+
+  @Override
   public Mono<Void> deleteRuleCopyMedia(final RuleCopyMediaFiles rule) {
     findAllRuleCopyMedia().removeIf(r -> r.getId().equals(rule.getId()));
     save(findAllRuleCopyMedia());
@@ -125,5 +145,10 @@ public class RuleServiceImpl implements RuleService {
   @Override
   public Set<RuleDeleteFiles> findAllRuleDeleteFiles() {
     return rootRepository.findRoot().getRuleDeleteFiles();
+  }
+
+  @Override
+  public Set<RuleDuplicateMedia> findAllRulesDuplicateMedia() {
+    return rootRepository.findRoot().getRuleDuplicateMedia();
   }
 }

@@ -6,6 +6,7 @@ import reactor.core.publisher.Mono;
 import space.forloop.data.rules.RuleCopyMediaFiles;
 import space.forloop.data.rules.RuleDeleteEmptyDirectories;
 import space.forloop.data.rules.RuleDeleteFiles;
+import space.forloop.data.rules.RuleDuplicateMedia;
 
 public interface RuleService {
 
@@ -16,6 +17,8 @@ public interface RuleService {
   Mono<RuleDeleteEmptyDirectories> saveRuleDeleteEmptyDirectories(RuleDeleteEmptyDirectories rule);
 
   Mono<RuleDeleteFiles> saveRuleDeleteFiles(RuleDeleteFiles rule);
+
+  Mono<RuleDuplicateMedia> saveRuleDuplicateMedia(RuleDuplicateMedia rule);
 
   Mono<Void> deleteRuleCopyMedia(RuleCopyMediaFiles rule);
 
@@ -28,4 +31,6 @@ public interface RuleService {
   Set<RuleDeleteEmptyDirectories> findAllRuleDeleteEmptyDirectories();
 
   Set<RuleDeleteFiles> findAllRuleDeleteFiles();
+
+  Set<RuleDuplicateMedia> findAllRulesDuplicateMedia();
 }

@@ -9,10 +9,7 @@ import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
 import space.forloop.autotools.services.RuleService;
 import space.forloop.data.dto.RuleDto;
-import space.forloop.data.rules.RuleCopyMediaFiles;
-import space.forloop.data.rules.RuleDeleteEmptyDirectories;
-import space.forloop.data.rules.RuleDeleteFiles;
-import space.forloop.data.rules.RuleEnum;
+import space.forloop.data.rules.*;
 
 @Slf4j
 @CrossOrigin
@@ -35,6 +32,10 @@ public class RuleController {
             .map(RuleDto::new);
       case DELETE_FILES:
         return ruleService.saveRuleDeleteFiles(new RuleDeleteFiles(ruleDto)).map(RuleDto::new);
+      case DUPLICATE_MEDIA:
+        return ruleService
+            .saveRuleDuplicateMedia(new RuleDuplicateMedia(ruleDto))
+            .map(RuleDto::new);
       default:
         return Mono.empty();
     }
@@ -46,7 +47,8 @@ public class RuleController {
     return Flux.fromStream(
         StreamEx.of(ruleService.findAllRuleCopyMedia().stream().map(RuleDto::new))
             .append(ruleService.findAllRuleDeleteEmptyDirectories().stream().map(RuleDto::new))
-            .append(ruleService.findAllRuleDeleteFiles().stream().map(RuleDto::new)));
+            .append(ruleService.findAllRuleDeleteFiles().stream().map(RuleDto::new))
+            .append(ruleService.findAllRulesDuplicateMedia().stream().map(RuleDto::new)));
   }
 
   @PostMapping("/delete")

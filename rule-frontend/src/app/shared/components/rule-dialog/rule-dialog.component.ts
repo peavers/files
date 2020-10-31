@@ -28,6 +28,10 @@ export class RuleDialogComponent {
       type: 'RuleCopyMediaFiles',
       name: 'Copy media files',
     },
+    {
+      type: 'RuleDuplicateMedia',
+      name: 'Find duplicate media',
+    },
   ];
 
   constructor(private dialogRef: MatDialogRef<any>, @Inject(MAT_DIALOG_DATA) private data: RuleDialogData) {
