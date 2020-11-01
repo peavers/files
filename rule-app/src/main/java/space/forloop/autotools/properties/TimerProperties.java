@@ -11,4 +11,6 @@ public class TimerProperties {
   private int deleteEmptyDirectories;
 
   private int copyFiles;
+
+  private int duplicateMedia;
 }
