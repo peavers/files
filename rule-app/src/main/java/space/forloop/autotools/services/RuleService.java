@@ -3,10 +3,7 @@ package space.forloop.autotools.services;
 
 import java.util.Set;
 import reactor.core.publisher.Mono;
-import space.forloop.data.rules.RuleCopyMediaFiles;
-import space.forloop.data.rules.RuleDeleteEmptyDirectories;
-import space.forloop.data.rules.RuleDeleteFiles;
-import space.forloop.data.rules.RuleDuplicateMedia;
+import space.forloop.data.rules.*;
 
 public interface RuleService {
 
@@ -18,7 +15,7 @@ public interface RuleService {
 
   Mono<RuleDeleteFiles> saveRuleDeleteFiles(RuleDeleteFiles rule);
 
-  Mono<RuleDuplicateMedia> saveRuleDuplicateMedia(RuleDuplicateMedia rule);
+  Mono<RuleDuplicateMediaBasic> saveRuleDuplicateMedia(RuleDuplicateMediaBasic rule);
 
   Mono<Void> deleteRuleCopyMedia(RuleCopyMediaFiles rule);
 
@@ -32,5 +29,7 @@ public interface RuleService {
 
   Set<RuleDeleteFiles> findAllRuleDeleteFiles();
 
-  Set<RuleDuplicateMedia> findAllRulesDuplicateMedia();
+  Set<RuleDuplicateMediaAdvance> findAllRulesDuplicateMediaAdvance();
+
+  Set<RuleDuplicateMediaBasic> findAllRulesDuplicateMediaBasic();
 }

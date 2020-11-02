@@ -11,7 +11,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
-import space.forloop.copy.media.services.ScanService;
+import space.forloop.common.services.ScanService;
 import space.forloop.copy.media.utils.FileUtils;
 import space.forloop.data.repositories.RootRepository;
 import space.forloop.data.rules.RuleCopyMediaFiles;
@@ -34,7 +34,7 @@ public class CopyMediaFilesTask {
         .forEach(
             rule ->
                 scanService
-                    .findAllFiles(rule.getSourceDirectory())
+                    .findFilesFlux(rule.getSourceDirectory())
                     .filter(file -> fileAlreadyExist(file.getPath(), rule.getTargetDirectory()))
                     .filter(file -> FileUtils.isMediaFile(Path.of(file.getPath())))
                     .doOnNext(file -> copyFile(file.getPath(), rule.getTargetDirectory()))

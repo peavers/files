@@ -1,6 +1,6 @@
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
-import {RuleDto} from "../../../core/domain/modules";
+import { RuleDto } from '../../../core/domain/modules';
 
 export interface RuleDialogData {
   rule: RuleDto;
@@ -12,8 +12,7 @@ export interface RuleDialogData {
   styleUrls: ['./rule-dialog.component.scss'],
 })
 export class RuleDialogComponent {
-
-  ruleDto: RuleDto
+  ruleDto: RuleDto;
 
   rules = [
     {
@@ -29,8 +28,12 @@ export class RuleDialogComponent {
       name: 'Copy media files',
     },
     {
-      type: 'RuleDuplicateMedia',
-      name: 'Find duplicate media',
+      type: 'RuleDuplicateMediaAdvance',
+      name: 'Find duplicate media (advance)',
+    },
+    {
+      type: 'RuleDuplicateMediaBasic',
+      name: 'Find duplicate media (basic)',
     },
   ];
 

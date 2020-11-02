@@ -54,8 +54,16 @@ public class RuleDto {
     this.greaterThanThreshold = deleteFiles.getGreaterThanThreshold();
   }
 
-  public RuleDto(final RuleDuplicateMedia duplicateMedia) {
-    this.type = RuleEnum.DUPLICATE_MEDIA.getType();
+  public RuleDto(final RuleDuplicateMediaAdvance duplicateMedia) {
+    this.type = RuleEnum.DUPLICATE_MEDIA_ADVANCE.getType();
+    this.id = duplicateMedia.getId();
+    this.name = duplicateMedia.getName();
+    this.enabled = duplicateMedia.isEnabled();
+    this.sourceDirectory = duplicateMedia.getSourceDirectory();
+  }
+
+  public RuleDto(final RuleDuplicateMediaBasic duplicateMedia) {
+    this.type = RuleEnum.DUPLICATE_MEDIA_BASIC.getType();
     this.id = duplicateMedia.getId();
     this.name = duplicateMedia.getName();
     this.enabled = duplicateMedia.isEnabled();

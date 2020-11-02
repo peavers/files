@@ -32,9 +32,9 @@ public class RuleController {
             .map(RuleDto::new);
       case DELETE_FILES:
         return ruleService.saveRuleDeleteFiles(new RuleDeleteFiles(ruleDto)).map(RuleDto::new);
-      case DUPLICATE_MEDIA:
+      case DUPLICATE_MEDIA_BASIC:
         return ruleService
-            .saveRuleDuplicateMedia(new RuleDuplicateMedia(ruleDto))
+            .saveRuleDuplicateMedia(new RuleDuplicateMediaBasic(ruleDto))
             .map(RuleDto::new);
       default:
         return Mono.empty();
@@ -48,7 +48,8 @@ public class RuleController {
         StreamEx.of(ruleService.findAllRuleCopyMedia().stream().map(RuleDto::new))
             .append(ruleService.findAllRuleDeleteEmptyDirectories().stream().map(RuleDto::new))
             .append(ruleService.findAllRuleDeleteFiles().stream().map(RuleDto::new))
-            .append(ruleService.findAllRulesDuplicateMedia().stream().map(RuleDto::new)));
+            .append(ruleService.findAllRulesDuplicateMediaAdvance().stream().map(RuleDto::new))
+            .append(ruleService.findAllRulesDuplicateMediaBasic().stream().map(RuleDto::new)));
   }
 
   @PostMapping("/delete")

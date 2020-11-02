@@ -1,9 +1,0 @@
-spring:
-  application:
-    name: files
-
-files:
-  timer:
-    delete-empty-directories: 86400000
-    delete-small-files: 86400000
-    copy-files: 86400000

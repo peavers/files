@@ -7,10 +7,10 @@ export interface Option {
 }
 
 export interface RuleDto {
-  type?: string
-  id?: string
-  name?: String
-  enabled?: boolean
+  type?: string;
+  id?: string;
+  name?: String;
+  enabled?: boolean;
 
   targetDirectory?: string;
   sourceDirectory?: string;

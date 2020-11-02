@@ -10,10 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import reactor.core.publisher.Mono;
 import space.forloop.data.repositories.RootRepository;
-import space.forloop.data.rules.RuleCopyMediaFiles;
-import space.forloop.data.rules.RuleDeleteEmptyDirectories;
-import space.forloop.data.rules.RuleDeleteFiles;
-import space.forloop.data.rules.RuleDuplicateMedia;
+import space.forloop.data.rules.*;
 
 @Slf4j
 @Service
@@ -90,12 +87,14 @@ public class RuleServiceImpl implements RuleService {
   }
 
   @Override
-  public Mono<RuleDuplicateMedia> saveRuleDuplicateMedia(final RuleDuplicateMedia rule) {
-    final Set<RuleDuplicateMedia> rules = rootRepository.findRoot().getRuleDuplicateMedia();
+  public Mono<RuleDuplicateMediaBasic> saveRuleDuplicateMedia(final RuleDuplicateMediaBasic rule) {
+    final Set<RuleDuplicateMediaBasic> rules =
+        rootRepository.findRoot().getRuleDuplicateMediaBasic();
 
-    final Predicate<RuleDuplicateMedia> predicate =
+    final Predicate<RuleDuplicateMediaBasic> predicate =
         duplicateMedia -> duplicateMedia.getId().equals(rule.getId());
-    final Optional<RuleDuplicateMedia> optionalRule = rules.stream().filter(predicate).findFirst();
+    final Optional<RuleDuplicateMediaBasic> optionalRule =
+        rules.stream().filter(predicate).findFirst();
 
     if (optionalRule.isEmpty()) {
       rule.setId(UUID.randomUUID().toString());
@@ -148,7 +147,12 @@ public class RuleServiceImpl implements RuleService {
   }
 
   @Override
-  public Set<RuleDuplicateMedia> findAllRulesDuplicateMedia() {
-    return rootRepository.findRoot().getRuleDuplicateMedia();
+  public Set<RuleDuplicateMediaAdvance> findAllRulesDuplicateMediaAdvance() {
+    return rootRepository.findRoot().getRuleDuplicateMediaAdvance();
+  }
+
+  @Override
+  public Set<RuleDuplicateMediaBasic> findAllRulesDuplicateMediaBasic() {
+    return rootRepository.findRoot().getRuleDuplicateMediaBasic();
   }
 }

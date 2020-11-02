@@ -1,9 +1,9 @@
-<div class=level>
+<div class="level">
   <div class="level-left">
-      <span class="mat-headline is-marginless">Rules</span>
+    <span class="mat-headline is-marginless">Rules</span>
   </div>
   <div class="level-right">
-      <mat-slide-toggle labelPosition="after" [(ngModel)]="ruleDto.enabled">Enable</mat-slide-toggle>
+    <mat-slide-toggle labelPosition="after" [(ngModel)]="ruleDto.enabled">Enable</mat-slide-toggle>
   </div>
 </div>
 
@@ -12,7 +12,7 @@
     <div class="column">
       <mat-form-field appearance="outline">
         <mat-label>Name</mat-label>
-        <input matInput [(ngModel)]="ruleDto.name" autocomplete="off"/>
+        <input matInput [(ngModel)]="ruleDto.name" autocomplete="off" />
         <mat-hint>Display name of the profile.</mat-hint>
       </mat-form-field>
     </div>
@@ -22,7 +22,7 @@
         <mat-label>Rule type</mat-label>
         <mat-select [(ngModel)]="ruleDto.type" [(value)]="ruleDto.type">
           <mat-option *ngFor="let rule of rules" [value]="rule.type">
-            {{rule.name}}
+            {{ rule.name }}
           </mat-option>
         </mat-select>
         <mat-hint>The base operation of this rule. Cannot be changed once created.</mat-hint>
@@ -34,13 +34,13 @@
   <div *ngIf="ruleDto.type == 'RuleDeleteFiles'">
     <mat-form-field appearance="outline">
       <mat-label>Source directory</mat-label>
-      <input matInput autocomplete="off" [(ngModel)]="ruleDto.sourceDirectory"/>
+      <input matInput autocomplete="off" [(ngModel)]="ruleDto.sourceDirectory" />
       <mat-hint>Directory where files will be deleted from (recursive function)</mat-hint>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Size in bytes to delete (1 megabyte is ~1000000 bytes)</mat-label>
-      <input matInput autocomplete="off" [(ngModel)]="ruleDto.lessThanThreshold"/>
+      <input matInput autocomplete="off" [(ngModel)]="ruleDto.lessThanThreshold" />
       <mat-hint>Files less than this size will be deleted</mat-hint>
     </mat-form-field>
   </div>
@@ -49,7 +49,7 @@
   <div *ngIf="ruleDto.type == 'RuleDeleteEmptyDirectories'">
     <mat-form-field appearance="outline">
       <mat-label>Source directory</mat-label>
-      <input matInput autocomplete="off" [(ngModel)]="ruleDto.sourceDirectory"/>
+      <input matInput autocomplete="off" [(ngModel)]="ruleDto.sourceDirectory" />
       <mat-hint>Directory where empty directories will be deleted from (recursive function)</mat-hint>
     </mat-form-field>
   </div>
@@ -58,22 +58,31 @@
   <div *ngIf="ruleDto.type == 'RuleCopyMediaFiles'">
     <mat-form-field appearance="outline">
       <mat-label>Source directory</mat-label>
-      <input matInput autocomplete="off" [(ngModel)]="ruleDto.sourceDirectory"/>
+      <input matInput autocomplete="off" [(ngModel)]="ruleDto.sourceDirectory" />
       <mat-hint>Where the files currently are</mat-hint>
     </mat-form-field>
 
     <mat-form-field appearance="outline">
       <mat-label>Target directory</mat-label>
-      <input matInput autocomplete="off" [(ngModel)]="ruleDto.targetDirectory"/>
+      <input matInput autocomplete="off" [(ngModel)]="ruleDto.targetDirectory" />
       <mat-hint>Where you want the files copied to</mat-hint>
     </mat-form-field>
   </div>
 
-  <!-- Duplicate Media -->
-  <div *ngIf="ruleDto.type == 'RuleDuplicateMedia'">
+  <!-- Duplicate Media Advance -->
+  <div *ngIf="ruleDto.type == 'RuleDuplicateMediaAdvance'">
     <mat-form-field appearance="outline">
       <mat-label>Source directory</mat-label>
-      <input matInput autocomplete="off" [(ngModel)]="ruleDto.sourceDirectory"/>
+      <input matInput autocomplete="off" [(ngModel)]="ruleDto.sourceDirectory" />
+      <mat-hint>Where to scan for duplicates</mat-hint>
+    </mat-form-field>
+  </div>
+
+  <!-- Duplicate Media Basic -->
+  <div *ngIf="ruleDto.type == 'RuleDuplicateMediaBasic'">
+    <mat-form-field appearance="outline">
+      <mat-label>Source directory</mat-label>
+      <input matInput autocomplete="off" [(ngModel)]="ruleDto.sourceDirectory" />
       <mat-hint>Where to scan for duplicates</mat-hint>
     </mat-form-field>
   </div>

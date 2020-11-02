@@ -1,6 +1,10 @@
 /* Licensed under Apache-2.0 */
 package space.forloop.duplicate.media.services;
 
+import java.awt.image.BufferedImage;
+import java.io.IOException;
+import java.nio.file.Path;
+import javax.imageio.ImageIO;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.coobird.thumbnailator.Thumbnails;
@@ -12,11 +16,6 @@ import org.jcodec.scale.AWTUtil;
 import org.springframework.stereotype.Service;
 import space.forloop.data.domain.File;
 
-import javax.imageio.ImageIO;
-import java.awt.image.BufferedImage;
-import java.io.IOException;
-import java.nio.file.Path;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
@@ -27,7 +26,8 @@ public class ThumbnailServiceImpl implements ThumbnailService {
       final java.io.File videoFile = new java.io.File(file.getPath());
       final FileChannelWrapper channelWrapper = NIOUtils.readableChannel(videoFile);
       final FrameGrab frameGrab = FrameGrab.createFrameGrab(channelWrapper);
-      final Picture picture = frameGrab.seekToFramePrecise(7900).getNativeFrame(); // ~5 minutes into the video
+      final Picture picture =
+          frameGrab.seekToFramePrecise(7900).getNativeFrame(); // ~5 minutes into the video
 
       final java.io.File tempFile = java.io.File.createTempFile(file.getName() + "-", ".jpg");
       tempFile.deleteOnExit();

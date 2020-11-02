@@ -1,12 +1,12 @@
-import { HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 import { environment } from '../../../environments/environment';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { Injectable } from '@angular/core';
 import { RuleDialogComponent, RuleDialogData } from '../../shared/components/rule-dialog/rule-dialog.component';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
-import {RuleDto} from "../domain/modules";
-import {ConfirmDialogComponent} from "../../shared/components/confirm-dialog/confirm-dialog.component";
+import { RuleDto } from '../domain/modules';
+import { ConfirmDialogComponent } from '../../shared/components/confirm-dialog/confirm-dialog.component';
 
 @Injectable({
   providedIn: 'root',
@@ -19,9 +19,7 @@ export class RuleService {
   constructor(private httpClient: HttpClient, private snackbar: MatSnackBar, private dialog: MatDialog) {
     this.endpoint = `${environment.api}/root/rules`;
 
-    this.httpClient
-      .get<RuleDto[]>(`${this.endpoint}`)
-      .subscribe((profiles: RuleDto[]) => this.rules$.next(profiles));
+    this.httpClient.get<RuleDto[]>(`${this.endpoint}`).subscribe((profiles: RuleDto[]) => this.rules$.next(profiles));
   }
 
   findAll(): Observable<RuleDto[]> {

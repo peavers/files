@@ -1,10 +1,10 @@
-import {Component, OnDestroy, OnInit, ViewChild} from '@angular/core';
-import {RuleService} from '../../../../core/services/rule.service';
-import {Subscription} from 'rxjs';
-import {MatTableDataSource} from '@angular/material/table';
-import {MatSort} from '@angular/material/sort';
-import {Router} from '@angular/router';
-import {RuleDto} from "../../../../core/domain/modules";
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
+import { RuleService } from '../../../../core/services/rule.service';
+import { Subscription } from 'rxjs';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatSort } from '@angular/material/sort';
+import { Router } from '@angular/router';
+import { RuleDto } from '../../../../core/domain/modules';
 
 @Component({
   selector: 'app-default',
@@ -12,16 +12,15 @@ import {RuleDto} from "../../../../core/domain/modules";
   styleUrls: ['./default.component.scss'],
 })
 export class DefaultComponent implements OnInit, OnDestroy {
-  @ViewChild(MatSort, {static: true}) sort: MatSort;
+  @ViewChild(MatSort, { static: true }) sort: MatSort;
 
-  displayedColumns: string[] = ['name', 'type', 'enabled', "actions"];
+  displayedColumns: string[] = ['name', 'type', 'source', 'target', 'enabled', 'actions'];
 
   dataSource = new MatTableDataSource();
 
   subscriptions: Subscription[] = [];
 
-  constructor(private router: Router, private profileService: RuleService) {
-  }
+  constructor(private router: Router, private profileService: RuleService) {}
 
   ngOnInit(): void {
     this.subscriptions.push(

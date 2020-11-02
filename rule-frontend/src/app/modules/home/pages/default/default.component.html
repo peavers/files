@@ -19,6 +19,20 @@
             </td>
           </ng-container>
 
+          <ng-container matColumnDef="source">
+            <th mat-header-cell mat-sort-header *matHeaderCellDef>Source</th>
+            <td class="is-editable" mat-cell *matCellDef="let element" (click)="editRule(element)">
+              {{ element.sourceDirectory }}
+            </td>
+          </ng-container>
+
+          <ng-container matColumnDef="target">
+            <th mat-header-cell mat-sort-header *matHeaderCellDef>Target</th>
+            <td class="is-editable" mat-cell *matCellDef="let element" (click)="editRule(element)">
+              {{ element.targetDirectory }}
+            </td>
+          </ng-container>
+
           <ng-container matColumnDef="enabled">
             <th mat-header-cell mat-sort-header *matHeaderCellDef>Enabled</th>
             <td class="is-editable" mat-cell *matCellDef="let element" (click)="editRule(element)">

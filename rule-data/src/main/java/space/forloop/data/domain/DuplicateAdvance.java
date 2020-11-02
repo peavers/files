@@ -17,6 +17,6 @@ public class DuplicateAdvance implements Comparable<DuplicateAdvance> {
 
   @Override
   public int compareTo(final DuplicateAdvance o) {
-    return Long.compare(this.getFile().getSize(), o.getFile().getSize());
+    return -Long.compare(this.getFile().getSize(), o.getFile().getSize());
   }
 }

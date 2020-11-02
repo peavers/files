@@ -6,10 +6,10 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
+import space.forloop.common.services.ScanService;
 import space.forloop.common.utils.DeleteUtils;
 import space.forloop.data.repositories.RootRepository;
 import space.forloop.data.rules.RuleDeleteEmptyDirectories;
-import space.forloop.directories.services.ScanService;
 
 @Slf4j
 @Async
@@ -31,7 +31,7 @@ public class DeleteEmptyDirectoriesTask {
         .forEach(
             rule ->
                 scanService
-                    .findAllDirectories(rule.getSourceDirectory())
+                    .findDirectoriesFlux(rule.getSourceDirectory())
                     .filter(directory -> directory.getChildren() <= ZERO)
                     .flatMap(DeleteUtils::deleteDirectory)
                     .subscribe());

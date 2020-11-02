@@ -12,7 +12,8 @@ import lombok.Getter;
 public enum RuleEnum {
   COPY_MEDIA_FILES("RuleCopyMediaFiles"),
   DELETE_FILES("RuleDeleteFiles"),
-  DUPLICATE_MEDIA("RuleDuplicateMedia"),
+  DUPLICATE_MEDIA_ADVANCE("RuleDuplicateMediaAdvance"),
+  DUPLICATE_MEDIA_BASIC("RuleDuplicateMediaBasic"),
   DELETE_EMPTY_DIRECTORIES("RuleDeleteEmptyDirectories");
 
   private final String type;

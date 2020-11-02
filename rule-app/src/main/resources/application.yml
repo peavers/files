@@ -4,7 +4,17 @@ spring:
 
 files:
   timer:
-    delete-empty-directories: 86400000
-    delete-small-files: 86400000
-    copy-files: 86400000
-    duplicate-media: 86400000
+    # 1 hour
+    delete-empty-directories: 3600000
+
+    # 1 hour
+    delete-small-files: 3600000
+
+    # 1 hour
+    copy-files: 3600000
+
+    # 1.5 hours
+    duplicate-media-basic: 5400000
+
+    # 2 weeks
+    duplicate-media-advance: 1209600000

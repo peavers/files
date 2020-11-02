@@ -12,5 +12,7 @@ public class TimerProperties {
 
   private int copyFiles;
 
-  private int duplicateMedia;
+  private int duplicateMediaBasic;
+
+  private int duplicateMediaAdvance;
 }

@@ -5,9 +5,9 @@ import lombok.Data;
 import space.forloop.data.dto.RuleDto;
 
 @Data
-public class RuleDuplicateMedia {
+public class RuleDuplicateMediaAdvance {
 
-  final RuleEnum type = RuleEnum.DUPLICATE_MEDIA;
+  final RuleEnum type = RuleEnum.DUPLICATE_MEDIA_ADVANCE;
 
   String id;
 
@@ -17,7 +17,7 @@ public class RuleDuplicateMedia {
 
   String sourceDirectory;
 
-  public RuleDuplicateMedia(final RuleDto ruleDto) {
+  public RuleDuplicateMediaAdvance(final RuleDto ruleDto) {
     this.id = ruleDto.getId();
     this.enabled = ruleDto.isEnabled();
     this.name = ruleDto.getName();

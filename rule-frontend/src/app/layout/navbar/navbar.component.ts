@@ -9,7 +9,6 @@ import { Option } from '../../core/domain/modules';
   styleUrls: ['./navbar.component.scss'],
 })
 export class NavbarComponent implements OnInit {
-
   options$: Observable<Array<Option>> = this.themeService.getThemeOptions();
 
   constructor(private readonly themeService: ThemeService) {}
