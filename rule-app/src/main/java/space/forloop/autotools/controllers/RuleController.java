@@ -32,9 +32,13 @@ public class RuleController {
             .map(RuleDto::new);
       case DELETE_FILES:
         return ruleService.saveRuleDeleteFiles(new RuleDeleteFiles(ruleDto)).map(RuleDto::new);
+      case DUPLICATE_MEDIA_ADVANCE:
+        return ruleService
+            .saveRuleDuplicateMediaAdvance(new RuleDuplicateMediaAdvance(ruleDto))
+            .map(RuleDto::new);
       case DUPLICATE_MEDIA_BASIC:
         return ruleService
-            .saveRuleDuplicateMedia(new RuleDuplicateMediaBasic(ruleDto))
+            .saveRuleDuplicateMediaBasic(new RuleDuplicateMediaBasic(ruleDto))
             .map(RuleDto::new);
       default:
         return Mono.empty();
@@ -62,6 +66,10 @@ public class RuleController {
         ruleService.deleteRuleDeleteEmptyDirectories(new RuleDeleteEmptyDirectories(ruleDto));
       case DELETE_FILES:
         ruleService.deleteRuleDeleteFiles(new RuleDeleteFiles(ruleDto));
+      case DUPLICATE_MEDIA_ADVANCE:
+        ruleService.deleteRuleDuplicateMediaAdvance(new RuleDuplicateMediaAdvance(ruleDto));
+      case DUPLICATE_MEDIA_BASIC:
+        ruleService.deleteRuleDuplicateMediaBasic(new RuleDuplicateMediaBasic(ruleDto));
       default:
         return Mono.empty();
     }

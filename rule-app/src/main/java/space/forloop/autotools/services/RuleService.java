@@ -15,13 +15,19 @@ public interface RuleService {
 
   Mono<RuleDeleteFiles> saveRuleDeleteFiles(RuleDeleteFiles rule);
 
-  Mono<RuleDuplicateMediaBasic> saveRuleDuplicateMedia(RuleDuplicateMediaBasic rule);
+  Mono<RuleDuplicateMediaAdvance> saveRuleDuplicateMediaAdvance(RuleDuplicateMediaAdvance rule);
+
+  Mono<RuleDuplicateMediaBasic> saveRuleDuplicateMediaBasic(RuleDuplicateMediaBasic rule);
 
   Mono<Void> deleteRuleCopyMedia(RuleCopyMediaFiles rule);
 
   Mono<Void> deleteRuleDeleteEmptyDirectories(RuleDeleteEmptyDirectories rule);
 
   Mono<Void> deleteRuleDeleteFiles(RuleDeleteFiles rule);
+
+  Mono<Void> deleteRuleDuplicateMediaAdvance(RuleDuplicateMediaAdvance rule);
+
+  Mono<Void> deleteRuleDuplicateMediaBasic(RuleDuplicateMediaBasic rule);
 
   Set<RuleCopyMediaFiles> findAllRuleCopyMedia();
 

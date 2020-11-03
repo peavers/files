@@ -87,7 +87,30 @@ public class RuleServiceImpl implements RuleService {
   }
 
   @Override
-  public Mono<RuleDuplicateMediaBasic> saveRuleDuplicateMedia(final RuleDuplicateMediaBasic rule) {
+  public Mono<RuleDuplicateMediaAdvance> saveRuleDuplicateMediaAdvance(
+      final RuleDuplicateMediaAdvance rule) {
+    final Set<RuleDuplicateMediaAdvance> rules =
+        rootRepository.findRoot().getRuleDuplicateMediaAdvance();
+
+    final Predicate<RuleDuplicateMediaAdvance> predicate =
+        duplicateMedia -> duplicateMedia.getId().equals(rule.getId());
+    final Optional<RuleDuplicateMediaAdvance> optionalRule =
+        rules.stream().filter(predicate).findFirst();
+
+    if (optionalRule.isEmpty()) {
+      rule.setId(UUID.randomUUID().toString());
+    } else {
+      rules.removeIf(predicate);
+    }
+
+    rules.add(rule);
+    rootRepository.store(rules);
+    return Mono.just(rule);
+  }
+
+  @Override
+  public Mono<RuleDuplicateMediaBasic> saveRuleDuplicateMediaBasic(
+      final RuleDuplicateMediaBasic rule) {
     final Set<RuleDuplicateMediaBasic> rules =
         rootRepository.findRoot().getRuleDuplicateMediaBasic();
 
@@ -127,6 +150,22 @@ public class RuleServiceImpl implements RuleService {
   public Mono<Void> deleteRuleDeleteFiles(final RuleDeleteFiles rule) {
     findAllRuleDeleteFiles().removeIf(r -> r.getId().equals(rule.getId()));
     save(findAllRuleDeleteFiles());
+
+    return Mono.empty();
+  }
+
+  @Override
+  public Mono<Void> deleteRuleDuplicateMediaAdvance(final RuleDuplicateMediaAdvance rule) {
+    findAllRulesDuplicateMediaAdvance().removeIf(r -> r.getId().equals(rule.getId()));
+    save(findAllRulesDuplicateMediaAdvance());
+
+    return Mono.empty();
+  }
+
+  @Override
+  public Mono<Void> deleteRuleDuplicateMediaBasic(final RuleDuplicateMediaBasic rule) {
+    findAllRulesDuplicateMediaBasic().removeIf(r -> r.getId().equals(rule.getId()));
+    save(findAllRulesDuplicateMediaBasic());
 
     return Mono.empty();
   }
