@@ -9,6 +9,4 @@ jar {
 dependencies {
     implementation project(':autotools-data')
     implementation project(':autotools-common')
-
-    implementation 'com.google.guava:guava:30.0-jre'
 }

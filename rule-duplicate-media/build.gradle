@@ -10,12 +10,8 @@ dependencies {
     implementation project(':autotools-data')
     implementation project(':autotools-common')
 
-    // Video
     implementation "org.jcodec:jcodec:0.2.5"
     implementation "org.jcodec:jcodec-javase:0.2.5"
     implementation "net.coobird:thumbnailator:0.4.13"
-
-    implementation 'com.google.guava:guava:30.0-jre'
     implementation 'com.github.wendykierp:JTransforms:3.1'
-
 }

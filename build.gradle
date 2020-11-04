@@ -60,6 +60,12 @@ javaProjects.each {
 				implementation 'org.apache.commons:commons-lang3:3.11'
 				implementation 'commons-io:commons-io:2.8.0'
 
+				// Google
+				implementation 'com.google.guava:guava:30.0-jre'
+
+				// Other
+				implementation 'one.util:streamex:0.7.3'
+
 				// Dev
 				compileOnly 'org.projectlombok:lombok'
 				annotationProcessor 'org.projectlombok:lombok'
