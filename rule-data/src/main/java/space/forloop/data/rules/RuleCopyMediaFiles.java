@@ -11,13 +11,15 @@ public class RuleCopyMediaFiles {
 
   String id;
 
-  boolean enabled;
-
   String name;
 
   String sourceDirectory;
 
   String targetDirectory;
+
+  String ignoreWords;
+
+  boolean enabled;
 
   public RuleCopyMediaFiles(final RuleDto ruleDto) {
     this.id = ruleDto.getId();

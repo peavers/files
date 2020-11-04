@@ -27,6 +27,8 @@ public class RuleDto {
 
   private long greaterThanThreshold;
 
+  private String ignoreWords;
+
   public RuleDto(final RuleCopyMediaFiles copyMediaFiles) {
     this.type = RuleEnum.COPY_MEDIA_FILES.getType();
     this.id = copyMediaFiles.getId();

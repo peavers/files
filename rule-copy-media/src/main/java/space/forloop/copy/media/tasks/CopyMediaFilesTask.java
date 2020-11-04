@@ -5,7 +5,11 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Objects;
+
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
@@ -32,26 +36,21 @@ public class CopyMediaFilesTask {
     rootRepository.findRoot().getRuleCopyMediaFiles().stream()
         .filter(RuleCopyMediaFiles::isEnabled)
         .forEach(
-            rule ->
-                scanService
-                    .findFilesFlux(rule.getSourceDirectory())
-                    .filter(file -> fileAlreadyExist(file.getPath(), rule.getTargetDirectory()))
-                    .filter(file -> FileUtils.isMediaFile(Path.of(file.getPath())))
-                    .doOnNext(file -> copyFile(file.getPath(), rule.getTargetDirectory()))
-                    .subscribe());
+            rule -> scanService
+                .findFilesFlux(rule.getSourceDirectory())
+                .filter(file -> FileUtils.isMediaFile(Path.of(file.getPath())))
+                .doOnNext(file -> copyFile(file.getPath(), rule.getTargetDirectory(), rule.getIgnoreWords()))
+                .subscribe());
   }
 
-  private boolean fileAlreadyExist(final String source, final String copyFilesTo) {
+  private void copyFile(final String source, final String copyFilesTo, final String ignoreWords) {
     final File file = new File(source);
     final File target = new File(copyFilesTo);
+    final List<String> ignore = Lists.newArrayList(Splitter.on(",").trimResults().split(ignoreWords));
 
-    return Arrays.stream(Objects.requireNonNull(target.listFiles()))
-        .noneMatch(f -> f.getName().equalsIgnoreCase(file.getName()));
-  }
-
-  private void copyFile(final String source, final String copyFilesTo) {
-    final File file = new File(source);
-    final File target = new File(copyFilesTo);
+    if(ignore.contains(file.getName())) {
+      return;
+    }
 
     try {
       org.apache.commons.io.FileUtils.copyFileToDirectory(file, target);

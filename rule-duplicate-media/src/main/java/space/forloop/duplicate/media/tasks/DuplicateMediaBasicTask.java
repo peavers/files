@@ -37,6 +37,7 @@ public class DuplicateMediaBasicTask {
 
     for (final File file : Iterables.skip(duplicate.getDuplicates(), 1)) {
       Files.deleteIfExists(Path.of(file.getPath()));
+      log.info("Deleted duplicate: {}", file.getPath());
     }
   }
 

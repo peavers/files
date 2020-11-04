@@ -35,6 +35,8 @@ public class ThumbnailServiceImpl implements ThumbnailService {
       final BufferedImage resizeThumbnail = resizeThumbnail(AWTUtil.toBufferedImage(picture));
       writeImage(resizeThumbnail, tempFile);
 
+      log.info("Thumbnail generated: {}", tempFile.toPath().toAbsolutePath());
+
       return tempFile.toPath().toAbsolutePath();
     } catch (final Exception e) {
       log.error("Error {}", e.getMessage());

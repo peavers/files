@@ -42,6 +42,7 @@ public class DuplicateMediaAdvanceTask {
 
     for (final DuplicateAdvance duplicateAdvance : Iterables.skip(duplicates, 1)) {
       Files.deleteIfExists(duplicateAdvance.getPath());
+      log.info("Deleted duplicate: {}", duplicateAdvance.getPath());
     }
   }
 
