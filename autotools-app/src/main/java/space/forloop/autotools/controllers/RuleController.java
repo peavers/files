@@ -3,12 +3,11 @@ package space.forloop.autotools.controllers;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import one.util.streamex.StreamEx;
 import org.springframework.web.bind.annotation.*;
 import reactor.core.publisher.Flux;
 import reactor.core.publisher.Mono;
-import space.forloop.autotools.services.RuleService;
 import space.forloop.data.dto.RuleDto;
+import space.forloop.data.repositories.RuleRepository;
 import space.forloop.data.rules.*;
 
 @Slf4j
@@ -18,42 +17,46 @@ import space.forloop.data.rules.*;
 @RequestMapping("/api/root/rules")
 public class RuleController {
 
-  private final RuleService ruleService;
+  private final RuleRepository<RuleCopyMediaFiles> copyMediaFilesRuleRepository;
+  private final RuleRepository<RuleDeleteEmptyDirectories> deleteEmptyDirectoriesRuleRepository;
+  private final RuleRepository<RuleDeleteFiles> deleteFilesRuleRepository;
+  private final RuleRepository<RuleDuplicateMediaAdvance> duplicateMediaAdvanceRuleRepository;
+  private final RuleRepository<RuleDuplicateMediaBasic> duplicateMediaBasicRuleRepository;
+
+  @GetMapping
+  public Flux<Object> findAll() {
+
+    return Flux.concat(
+        copyMediaFilesRuleRepository.findAll().map(RuleDto::new),
+        deleteEmptyDirectoriesRuleRepository.findAll().map(RuleDto::new),
+        deleteFilesRuleRepository.findAll().map(RuleDto::new),
+        duplicateMediaAdvanceRuleRepository.findAll().map(RuleDto::new),
+        duplicateMediaBasicRuleRepository.findAll().map(RuleDto::new));
+  }
 
   @PostMapping
   public Mono<RuleDto> save(@RequestBody final RuleDto ruleDto) {
 
     switch (RuleEnum.get(ruleDto.getType())) {
       case COPY_MEDIA_FILES:
-        return ruleService.saveRuleCopyMedia(new RuleCopyMediaFiles(ruleDto)).map(RuleDto::new);
+        return copyMediaFilesRuleRepository.save(new RuleCopyMediaFiles(ruleDto)).map(RuleDto::new);
       case DELETE_EMPTY_DIRECTORIES:
-        return ruleService
-            .saveRuleDeleteEmptyDirectories(new RuleDeleteEmptyDirectories(ruleDto))
+        return deleteEmptyDirectoriesRuleRepository
+            .save(new RuleDeleteEmptyDirectories(ruleDto))
             .map(RuleDto::new);
       case DELETE_FILES:
-        return ruleService.saveRuleDeleteFiles(new RuleDeleteFiles(ruleDto)).map(RuleDto::new);
+        return deleteFilesRuleRepository.save(new RuleDeleteFiles(ruleDto)).map(RuleDto::new);
       case DUPLICATE_MEDIA_ADVANCE:
-        return ruleService
-            .saveRuleDuplicateMediaAdvance(new RuleDuplicateMediaAdvance(ruleDto))
+        return duplicateMediaAdvanceRuleRepository
+            .save(new RuleDuplicateMediaAdvance(ruleDto))
             .map(RuleDto::new);
       case DUPLICATE_MEDIA_BASIC:
-        return ruleService
-            .saveRuleDuplicateMediaBasic(new RuleDuplicateMediaBasic(ruleDto))
+        return duplicateMediaBasicRuleRepository
+            .save(new RuleDuplicateMediaBasic(ruleDto))
             .map(RuleDto::new);
       default:
         return Mono.empty();
     }
-  }
-
-  @GetMapping
-  public Flux<Object> findAll() {
-
-    return Flux.fromStream(
-        StreamEx.of(ruleService.findAllRuleCopyMedia().stream().map(RuleDto::new))
-            .append(ruleService.findAllRuleDeleteEmptyDirectories().stream().map(RuleDto::new))
-            .append(ruleService.findAllRuleDeleteFiles().stream().map(RuleDto::new))
-            .append(ruleService.findAllRulesDuplicateMediaAdvance().stream().map(RuleDto::new))
-            .append(ruleService.findAllRulesDuplicateMediaBasic().stream().map(RuleDto::new)));
   }
 
   @PostMapping("/delete")
@@ -61,15 +64,15 @@ public class RuleController {
 
     switch (RuleEnum.get(ruleDto.getType())) {
       case COPY_MEDIA_FILES:
-        ruleService.deleteRuleCopyMedia(new RuleCopyMediaFiles(ruleDto));
+        return copyMediaFilesRuleRepository.delete(new RuleCopyMediaFiles(ruleDto));
       case DELETE_EMPTY_DIRECTORIES:
-        ruleService.deleteRuleDeleteEmptyDirectories(new RuleDeleteEmptyDirectories(ruleDto));
+        deleteEmptyDirectoriesRuleRepository.delete(new RuleDeleteEmptyDirectories(ruleDto));
       case DELETE_FILES:
-        ruleService.deleteRuleDeleteFiles(new RuleDeleteFiles(ruleDto));
+        deleteFilesRuleRepository.delete(new RuleDeleteFiles(ruleDto));
       case DUPLICATE_MEDIA_ADVANCE:
-        ruleService.deleteRuleDuplicateMediaAdvance(new RuleDuplicateMediaAdvance(ruleDto));
+        duplicateMediaAdvanceRuleRepository.delete(new RuleDuplicateMediaAdvance(ruleDto));
       case DUPLICATE_MEDIA_BASIC:
-        ruleService.deleteRuleDuplicateMediaBasic(new RuleDuplicateMediaBasic(ruleDto));
+        duplicateMediaBasicRuleRepository.delete(new RuleDuplicateMediaBasic(ruleDto));
       default:
         return Mono.empty();
     }

@@ -21,12 +21,6 @@ public class RootRepositoryImpl implements RootRepository {
   }
 
   @Override
-  public void storeAll(final Object... object) {
-    this.storageManager.storeAll(object);
-    this.storageManager.storeRoot();
-  }
-
-  @Override
   public RootData findRoot() {
     return (RootData) this.storageManager.root();
   }

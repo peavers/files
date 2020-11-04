@@ -7,7 +7,5 @@ public interface RootRepository {
 
   void store(Object object);
 
-  void storeAll(Object... objects);
-
   RootData findRoot();
 }

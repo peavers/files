@@ -19,7 +19,7 @@ import space.forloop.common.services.ScanService;
 import space.forloop.data.domain.DuplicateAdvance;
 import space.forloop.data.domain.File;
 import space.forloop.data.repositories.RootRepository;
-import space.forloop.data.rules.RuleDuplicateMediaBasic;
+import space.forloop.data.rules.RuleDuplicateMediaAdvance;
 import space.forloop.duplicate.media.services.HashService;
 import space.forloop.duplicate.media.services.ThumbnailService;
 
@@ -43,8 +43,8 @@ public class DuplicateMediaAdvanceTask {
 
     log.info("Running: {}", this.getClass().getName());
 
-    rootRepository.findRoot().getRuleDuplicateMediaBasic().stream()
-        .filter(RuleDuplicateMediaBasic::isEnabled)
+    rootRepository.findRoot().getRuleDuplicateMediaAdvance().stream()
+        .filter(RuleDuplicateMediaAdvance::isEnabled)
         .forEach(
             rule ->
                 scanService
