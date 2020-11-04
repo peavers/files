@@ -2,8 +2,9 @@ apply plugin: 'org.springframework.boot'
 apply plugin: 'com.google.cloud.tools.jib'
 
 dependencies {
-    implementation project(':rule-frontend')
-    implementation project(':rule-data')
+    implementation project(':autotools-frontend')
+    implementation project(':autotools-data')
+
     implementation project(':rule-copy-media')
     implementation project(':rule-delete-directories')
     implementation project(':rule-delete-files')
@@ -14,7 +15,7 @@ dependencies {
 
 jib {
     to {
-        image = 'peavers/files'
+        image = 'peavers/autotools'
         auth {
             username = System.getenv("DOCKER_USER")
             password = System.getenv("DOCKER_PASS")

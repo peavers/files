@@ -7,8 +7,8 @@ jar {
 }
 
 dependencies {
-    implementation project(':rule-data')
-    implementation project(':rule-common')
+    implementation project(':autotools-data')
+    implementation project(':autotools-common')
 
     // Video
     implementation "org.jcodec:jcodec:0.2.5"

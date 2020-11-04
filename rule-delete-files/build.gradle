@@ -7,6 +7,6 @@ jar {
 }
 
 dependencies {
-    implementation project(':rule-data')
-    implementation project(':rule-common')
+    implementation project(':autotools-data')
+    implementation project(':autotools-common')
 }

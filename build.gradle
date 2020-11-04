@@ -18,10 +18,11 @@ jar {
 }
 
 def javaProjects = [
-		'rule-app',
-		'rule-common',
+		'autotools-app',
+		'autotools-common',
+		'autotools-data',
+
 		'rule-copy-media',
-		'rule-data',
 		'rule-delete-directories',
 		'rule-delete-files',
 		'rule-duplicate-media'
