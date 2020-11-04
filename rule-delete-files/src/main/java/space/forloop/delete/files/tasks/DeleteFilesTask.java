@@ -24,6 +24,8 @@ public class DeleteFilesTask {
   @Scheduled(fixedDelayString = "${files.timer.delete-small-files}")
   public void deleteSmallFiles() {
 
+    log.info("Running: {}", this.getClass().getName());
+
     rootRepository.findRoot().getRuleDeleteFiles().stream()
         .filter(RuleDeleteFiles::isEnabled)
         .forEach(

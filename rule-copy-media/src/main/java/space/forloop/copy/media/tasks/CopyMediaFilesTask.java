@@ -1,15 +1,12 @@
 /* Licensed under Apache-2.0 */
 package space.forloop.copy.media.tasks;
 
+import com.google.common.base.Splitter;
+import com.google.common.collect.Lists;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Path;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-
-import com.google.common.base.Splitter;
-import com.google.common.collect.Lists;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.scheduling.annotation.Async;
@@ -33,22 +30,29 @@ public class CopyMediaFilesTask {
   @Scheduled(fixedDelayString = "${files.timer.copy-files}")
   public void copyMediaFiles() {
 
+    log.info("Running: {}", this.getClass().getName());
+
     rootRepository.findRoot().getRuleCopyMediaFiles().stream()
         .filter(RuleCopyMediaFiles::isEnabled)
         .forEach(
-            rule -> scanService
-                .findFilesFlux(rule.getSourceDirectory())
-                .filter(file -> FileUtils.isMediaFile(Path.of(file.getPath())))
-                .doOnNext(file -> copyFile(file.getPath(), rule.getTargetDirectory(), rule.getIgnoreWords()))
-                .subscribe());
+            rule ->
+                scanService
+                    .findFilesFlux(rule.getSourceDirectory())
+                    .filter(file -> FileUtils.isMediaFile(Path.of(file.getPath())))
+                    .doOnNext(
+                        file ->
+                            copyFile(
+                                file.getPath(), rule.getTargetDirectory(), rule.getIgnoreWords()))
+                    .subscribe());
   }
 
   private void copyFile(final String source, final String copyFilesTo, final String ignoreWords) {
     final File file = new File(source);
     final File target = new File(copyFilesTo);
-    final List<String> ignore = Lists.newArrayList(Splitter.on(",").trimResults().split(ignoreWords));
+    final List<String> ignore =
+        Lists.newArrayList(Splitter.on(",").trimResults().split(ignoreWords));
 
-    if(ignore.contains(file.getName())) {
+    if (ignore.contains(file.getName())) {
       return;
     }
 

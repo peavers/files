@@ -26,6 +26,8 @@ public class DeleteEmptyDirectoriesTask {
   @Scheduled(fixedDelayString = "${files.timer.delete-empty-directories}")
   public void deleteEmptyDirectories() {
 
+    log.info("Running: {}", this.getClass().getName());
+
     rootRepository.findRoot().getRuleDeleteEmptyDirectories().stream()
         .filter(RuleDeleteEmptyDirectories::isEnabled)
         .forEach(

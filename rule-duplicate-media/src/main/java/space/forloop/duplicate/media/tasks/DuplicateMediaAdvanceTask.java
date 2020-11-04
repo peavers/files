@@ -49,6 +49,8 @@ public class DuplicateMediaAdvanceTask {
   @Scheduled(fixedDelayString = "${files.timer.duplicate-media-advance}")
   public void deleteDuplicatesByContent() {
 
+    log.info("Running: {}", this.getClass().getName());
+
     rootRepository.findRoot().getRuleDuplicateMediaBasic().stream()
         .filter(RuleDuplicateMediaBasic::isEnabled)
         .forEach(

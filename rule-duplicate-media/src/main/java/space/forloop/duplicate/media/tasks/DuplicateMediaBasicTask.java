@@ -44,6 +44,8 @@ public class DuplicateMediaBasicTask {
   @Scheduled(fixedDelayString = "${files.timer.duplicate-media-basic}")
   public void deleteDuplicatesByFileSize() {
 
+    log.info("Running: {}", this.getClass().getName());
+
     rootRepository.findRoot().getRuleDuplicateMediaBasic().stream()
         .filter(RuleDuplicateMediaBasic::isEnabled)
         .forEach(
