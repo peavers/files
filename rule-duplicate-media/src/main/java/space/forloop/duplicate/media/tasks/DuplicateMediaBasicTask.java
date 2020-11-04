@@ -12,7 +12,6 @@ import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.scheduling.annotation.Async;
 import org.springframework.scheduling.annotation.Scheduled;
 import org.springframework.stereotype.Component;
 import space.forloop.common.services.ScanService;
@@ -22,7 +21,6 @@ import space.forloop.data.repositories.RootRepository;
 import space.forloop.data.rules.RuleDuplicateMediaBasic;
 
 @Slf4j
-@Async
 @Component
 @RequiredArgsConstructor
 public class DuplicateMediaBasicTask {
