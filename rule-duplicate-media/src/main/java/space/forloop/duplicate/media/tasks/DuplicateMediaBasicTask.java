@@ -7,6 +7,8 @@ import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.function.Consumer;
 import java.util.function.Function;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
@@ -25,19 +27,11 @@ import space.forloop.data.rules.RuleDuplicateMediaBasic;
 @RequiredArgsConstructor
 public class DuplicateMediaBasicTask {
 
+  private final ExecutorService executor;
+
   private final RootRepository rootRepository;
 
   private final ScanService scanService;
-
-  @SneakyThrows
-  private static void deleteAllButLastAccess(final Duplicate duplicate) {
-    duplicate.getDuplicates().sort(Comparator.comparing(File::getLastAccessTime).reversed());
-
-    for (final File file : Iterables.skip(duplicate.getDuplicates(), 1)) {
-      Files.deleteIfExists(Path.of(file.getPath()));
-      log.info("Deleted duplicate: {}", file.getPath());
-    }
-  }
 
   @Scheduled(fixedDelayString = "${files.timer.duplicate-media-basic}")
   public void deleteDuplicatesByFileSize() {
@@ -56,10 +50,24 @@ public class DuplicateMediaBasicTask {
                     .filter(entry -> entry.getValue().size() > 1)
                     .map(buildDuplicate())
                     .collect(Collectors.toList())
-                    .forEach(DuplicateMediaBasicTask::deleteAllButLastAccess));
+                    .forEach(process()));
+  }
+
+  private Consumer<Duplicate> process() {
+    return duplicate -> executor.submit(() -> deleteAllButLastAccess(duplicate));
   }
 
   private Function<Map.Entry<Long, List<File>>, Duplicate> buildDuplicate() {
     return entry -> Duplicate.builder().id(entry.getKey()).duplicates(entry.getValue()).build();
+  }
+
+  @SneakyThrows
+  private void deleteAllButLastAccess(final Duplicate duplicate) {
+    duplicate.getDuplicates().sort(Comparator.comparing(File::getLastAccessTime).reversed());
+
+    for (final File file : Iterables.skip(duplicate.getDuplicates(), 1)) {
+      Files.deleteIfExists(Path.of(file.getPath()));
+      log.info("Deleted duplicate: {}", file.getPath());
+    }
   }
 }

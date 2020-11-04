@@ -1,5 +1,5 @@
 /* Licensed under Apache-2.0 */
-package space.forloop.autotools.config;
+package space.forloop.autotools.configuration;
 
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;

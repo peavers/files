@@ -6,6 +6,9 @@ import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Map;
+import java.util.concurrent.ExecutorService;
+import java.util.function.Consumer;
 import java.util.stream.Collectors;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -25,6 +28,8 @@ import space.forloop.duplicate.media.services.ThumbnailService;
 @RequiredArgsConstructor
 public class DuplicateMediaAdvanceTask {
 
+  private final ExecutorService executor;
+
   private final ScanService scanService;
 
   private final RootRepository rootRepository;
@@ -32,17 +37,6 @@ public class DuplicateMediaAdvanceTask {
   private final ThumbnailService thumbnailService;
 
   private final HashService hashService;
-
-  @SneakyThrows
-  private static void deleteAllButLargest(final List<DuplicateAdvance> duplicates) {
-
-    duplicates.sort(Comparator.naturalOrder());
-
-    for (final DuplicateAdvance duplicateAdvance : Iterables.skip(duplicates, 1)) {
-      Files.deleteIfExists(duplicateAdvance.getPath());
-      log.info("Deleted duplicate: {}", duplicateAdvance.getPath());
-    }
-  }
 
   @Scheduled(fixedDelayString = "${files.timer.duplicate-media-advance}")
   public void deleteDuplicatesByContent() {
@@ -61,7 +55,13 @@ public class DuplicateMediaAdvanceTask {
                     .stream()
                     .filter(longListEntry -> longListEntry.getValue().size() > 1)
                     .collect(Collectors.toList())
-                    .forEach(longListEntry -> deleteAllButLargest(longListEntry.getValue())));
+                    .stream()
+                    .map(Map.Entry::getValue)
+                    .forEach(process()));
+  }
+
+  private Consumer<List<DuplicateAdvance>> process() {
+    return duplicateAdvances -> executor.submit(() -> deleteAllButLargest(duplicateAdvances));
   }
 
   private DuplicateAdvance buildDuplicate(final File file) {
@@ -73,6 +73,17 @@ public class DuplicateMediaAdvanceTask {
       return DuplicateAdvance.builder().path(path).hash(hash).file(file).build();
     } else {
       return DuplicateAdvance.builder().path(null).file(file).build();
+    }
+  }
+
+  @SneakyThrows
+  private void deleteAllButLargest(final List<DuplicateAdvance> duplicates) {
+
+    duplicates.sort(Comparator.naturalOrder());
+
+    for (final DuplicateAdvance duplicateAdvance : Iterables.skip(duplicates, 1)) {
+      Files.deleteIfExists(duplicateAdvance.getPath());
+      log.info("Deleted duplicate: {}", duplicateAdvance.getPath());
     }
   }
 }
