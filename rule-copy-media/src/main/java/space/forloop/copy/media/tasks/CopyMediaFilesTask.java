@@ -49,12 +49,6 @@ public class CopyMediaFilesTask {
   private void copyFile(final String source, final String copyFilesTo, final String ignoreWords) {
     final File file = new File(source);
     final File target = new File(copyFilesTo);
-    final List<String> ignore =
-        Lists.newArrayList(Splitter.on(",").trimResults().split(ignoreWords));
-
-    if (ignore.contains(file.getName())) {
-      return;
-    }
 
     try {
       org.apache.commons.io.FileUtils.copyFileToDirectory(file, target);
