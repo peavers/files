@@ -42,7 +42,7 @@ public class DuplicateMediaAdvanceTask {
 
     log.info("Running: {}", this.getClass().getName());
 
-    getEnabledRules()
+    getFilesStream()
         .map(this::buildDuplicate)
         .collect(Collectors.groupingBy(DuplicateAdvance::getHash))
         .values()
@@ -51,7 +51,8 @@ public class DuplicateMediaAdvanceTask {
         .forEach(deleteAllButLargestFile());
   }
 
-  private Stream<File> getEnabledRules() {
+  private Stream<File> getFilesStream() {
+
     return repository
         .findAll()
         .filter(RuleDuplicateMediaAdvance::isEnabled)
@@ -61,10 +62,12 @@ public class DuplicateMediaAdvanceTask {
   }
 
   private Stream<File> getFiles(RuleDuplicateMediaAdvance ruleDuplicateMediaAdvance) {
-    return scanService.findFiles(ruleDuplicateMediaAdvance.getSourceDirectory()).parallel();
+
+    return scanService.findFiles(ruleDuplicateMediaAdvance.getSourceDirectory());
   }
 
   private DuplicateAdvance buildDuplicate(final File file) {
+
     final Path path = thumbnailService.create(file);
     final long hash = hashService.getPerceptualHash(path.toFile());
 

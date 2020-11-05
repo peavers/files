@@ -26,4 +26,8 @@ public class File {
   LocalDateTime lastModifiedTime;
 
   LocalDateTime lastWatched;
+
+  public java.io.File toNative() {
+    return new java.io.File(this.path);
+  }
 }
