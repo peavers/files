@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,12 @@ public class RuleDuplicateMediaAdvanceRepository
   private final RootRepository rootRepository;
 
   @Override
-  public Flux<RuleDuplicateMediaAdvance> findAll() {
+  public Stream<RuleDuplicateMediaAdvance> findAll() {
+    return rootRepository.findRoot().getRuleDuplicateMediaAdvance().parallelStream();
+  }
+
+  @Override
+  public Flux<RuleDuplicateMediaAdvance> findAllFlux() {
     return Flux.fromIterable(rootRepository.findRoot().getRuleDuplicateMediaAdvance());
   }
 
@@ -50,7 +56,7 @@ public class RuleDuplicateMediaAdvanceRepository
   @Override
   public Mono<Void> delete(final RuleDuplicateMediaAdvance rule) {
     final List<RuleDuplicateMediaAdvance> rules =
-        findAll().filter(r -> r.getId().equals(rule.getId())).collectList().block();
+        findAllFlux().filter(r -> r.getId().equals(rule.getId())).collectList().block();
 
     rootRepository.store(rules);
 

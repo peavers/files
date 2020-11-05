@@ -3,6 +3,7 @@ package space.forloop.data.repositories;
 
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -18,7 +19,12 @@ public class RuleCopyMediaFilesRepository implements RuleRepository<RuleCopyMedi
   private final RootRepository rootRepository;
 
   @Override
-  public Flux<RuleCopyMediaFiles> findAll() {
+  public Stream<RuleCopyMediaFiles> findAll() {
+    return null;
+  }
+
+  @Override
+  public Flux<RuleCopyMediaFiles> findAllFlux() {
     return Flux.fromIterable(rootRepository.findRoot().getRuleCopyMediaFiles());
   }
 
@@ -44,7 +50,7 @@ public class RuleCopyMediaFilesRepository implements RuleRepository<RuleCopyMedi
   @Override
   public Mono<Void> delete(final RuleCopyMediaFiles rule) {
     final List<RuleCopyMediaFiles> rules =
-        findAll().filter(r -> r.getId().equals(rule.getId())).collectList().block();
+        findAllFlux().filter(r -> r.getId().equals(rule.getId())).collectList().block();
 
     rootRepository.store(rules);
 

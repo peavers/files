@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -22,7 +23,12 @@ public class RuleDeleteEmptyDirectoriesRepository
   private final RootRepository rootRepository;
 
   @Override
-  public Flux<RuleDeleteEmptyDirectories> findAll() {
+  public Stream<RuleDeleteEmptyDirectories> findAll() {
+    return null;
+  }
+
+  @Override
+  public Flux<RuleDeleteEmptyDirectories> findAllFlux() {
     return Flux.fromIterable(rootRepository.findRoot().getRuleDeleteEmptyDirectories());
   }
 
@@ -50,7 +56,7 @@ public class RuleDeleteEmptyDirectoriesRepository
   @Override
   public Mono<Void> delete(final RuleDeleteEmptyDirectories rule) {
     final List<RuleDeleteEmptyDirectories> rules =
-        findAll().filter(r -> r.getId().equals(rule.getId())).collectList().block();
+        findAllFlux().filter(r -> r.getId().equals(rule.getId())).collectList().block();
 
     rootRepository.store(rules);
 

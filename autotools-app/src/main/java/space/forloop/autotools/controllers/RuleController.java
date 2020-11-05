@@ -27,11 +27,11 @@ public class RuleController {
   public Flux<Object> findAll() {
 
     return Flux.concat(
-        copyMediaFilesRuleRepository.findAll().map(RuleDto::new),
-        deleteEmptyDirectoriesRuleRepository.findAll().map(RuleDto::new),
-        deleteFilesRuleRepository.findAll().map(RuleDto::new),
-        duplicateMediaAdvanceRuleRepository.findAll().map(RuleDto::new),
-        duplicateMediaBasicRuleRepository.findAll().map(RuleDto::new));
+        copyMediaFilesRuleRepository.findAllFlux().map(RuleDto::new),
+        deleteEmptyDirectoriesRuleRepository.findAllFlux().map(RuleDto::new),
+        deleteFilesRuleRepository.findAllFlux().map(RuleDto::new),
+        duplicateMediaAdvanceRuleRepository.findAllFlux().map(RuleDto::new),
+        duplicateMediaBasicRuleRepository.findAllFlux().map(RuleDto::new));
   }
 
   @PostMapping

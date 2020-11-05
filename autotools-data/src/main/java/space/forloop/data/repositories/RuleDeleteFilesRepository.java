@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Predicate;
+import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
@@ -21,7 +22,12 @@ public class RuleDeleteFilesRepository implements RuleRepository<RuleDeleteFiles
   private final RootRepository rootRepository;
 
   @Override
-  public Flux<RuleDeleteFiles> findAll() {
+  public Stream<RuleDeleteFiles> findAll() {
+    return null;
+  }
+
+  @Override
+  public Flux<RuleDeleteFiles> findAllFlux() {
     return Flux.fromIterable(rootRepository.findRoot().getRuleDeleteFiles());
   }
 
@@ -47,7 +53,7 @@ public class RuleDeleteFilesRepository implements RuleRepository<RuleDeleteFiles
   @Override
   public Mono<Void> delete(final RuleDeleteFiles rule) {
     final List<RuleDeleteFiles> rules =
-        findAll().filter(r -> r.getId().equals(rule.getId())).collectList().block();
+        findAllFlux().filter(r -> r.getId().equals(rule.getId())).collectList().block();
 
     rootRepository.store(rules);
 
