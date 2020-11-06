@@ -24,7 +24,7 @@ public class RuleDuplicateMediaBasicRepository implements RuleRepository<RuleDup
 
   @Override
   public Stream<RuleDuplicateMediaBasic> findAll() {
-    return null;
+    return rootRepository.findRoot().getRuleDuplicateMediaBasic().parallelStream();
   }
 
   @Override
@@ -56,7 +56,7 @@ public class RuleDuplicateMediaBasicRepository implements RuleRepository<RuleDup
   @Override
   public Mono<Void> delete(final RuleDuplicateMediaBasic rule) {
     final List<RuleDuplicateMediaBasic> rules =
-            findAll().filter(r -> r.getId().equals(rule.getId())).collect(Collectors.toList());
+        findAll().filter(r -> r.getId().equals(rule.getId())).collect(Collectors.toList());
 
     rootRepository.store(rules);
 

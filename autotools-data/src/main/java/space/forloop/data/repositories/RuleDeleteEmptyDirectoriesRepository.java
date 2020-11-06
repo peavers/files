@@ -25,7 +25,7 @@ public class RuleDeleteEmptyDirectoriesRepository
 
   @Override
   public Stream<RuleDeleteEmptyDirectories> findAll() {
-    return null;
+    return rootRepository.findRoot().getRuleDeleteEmptyDirectories().parallelStream();
   }
 
   @Override
@@ -57,7 +57,7 @@ public class RuleDeleteEmptyDirectoriesRepository
   @Override
   public Mono<Void> delete(final RuleDeleteEmptyDirectories rule) {
     final List<RuleDeleteEmptyDirectories> rules =
-            findAll().filter(r -> r.getId().equals(rule.getId())).collect(Collectors.toList());
+        findAll().filter(r -> r.getId().equals(rule.getId())).collect(Collectors.toList());
 
     rootRepository.store(rules);
 

@@ -24,7 +24,7 @@ public class RuleDeleteFilesRepository implements RuleRepository<RuleDeleteFiles
 
   @Override
   public Stream<RuleDeleteFiles> findAll() {
-    return null;
+    return rootRepository.findRoot().getRuleDeleteFiles().parallelStream();
   }
 
   @Override
@@ -54,7 +54,7 @@ public class RuleDeleteFilesRepository implements RuleRepository<RuleDeleteFiles
   @Override
   public Mono<Void> delete(final RuleDeleteFiles rule) {
     final List<RuleDeleteFiles> rules =
-            findAll().filter(r -> r.getId().equals(rule.getId())).collect(Collectors.toList());
+        findAll().filter(r -> r.getId().equals(rule.getId())).collect(Collectors.toList());
 
     rootRepository.store(rules);
 

@@ -58,7 +58,7 @@ public class RuleDuplicateMediaAdvanceRepository
   public Mono<Void> delete(final RuleDuplicateMediaAdvance rule) {
 
     final List<RuleDuplicateMediaAdvance> rules =
-            findAll().filter(r -> r.getId().equals(rule.getId())).collect(Collectors.toList());
+        findAll().filter(r -> r.getId().equals(rule.getId())).collect(Collectors.toList());
 
     rootRepository.store(rules);
 

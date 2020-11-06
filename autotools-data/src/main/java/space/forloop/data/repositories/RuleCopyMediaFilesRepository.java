@@ -21,7 +21,7 @@ public class RuleCopyMediaFilesRepository implements RuleRepository<RuleCopyMedi
 
   @Override
   public Stream<RuleCopyMediaFiles> findAll() {
-    return null;
+    return rootRepository.findRoot().getRuleCopyMediaFiles().parallelStream();
   }
 
   @Override
@@ -51,7 +51,7 @@ public class RuleCopyMediaFilesRepository implements RuleRepository<RuleCopyMedi
   @Override
   public Mono<Void> delete(final RuleCopyMediaFiles rule) {
     final List<RuleCopyMediaFiles> rules =
-            findAll().filter(r -> r.getId().equals(rule.getId())).collect(Collectors.toList());
+        findAll().filter(r -> r.getId().equals(rule.getId())).collect(Collectors.toList());
 
     rootRepository.store(rules);
 
