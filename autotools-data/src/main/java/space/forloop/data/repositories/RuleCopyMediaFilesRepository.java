@@ -3,6 +3,7 @@ package space.forloop.data.repositories;
 
 import java.util.*;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -50,7 +51,7 @@ public class RuleCopyMediaFilesRepository implements RuleRepository<RuleCopyMedi
   @Override
   public Mono<Void> delete(final RuleCopyMediaFiles rule) {
     final List<RuleCopyMediaFiles> rules =
-        findAllFlux().filter(r -> r.getId().equals(rule.getId())).collectList().block();
+            findAll().filter(r -> r.getId().equals(rule.getId())).collect(Collectors.toList());
 
     rootRepository.store(rules);
 

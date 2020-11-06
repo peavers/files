@@ -6,6 +6,7 @@ import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
 import java.util.function.Predicate;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -55,8 +56,9 @@ public class RuleDuplicateMediaAdvanceRepository
 
   @Override
   public Mono<Void> delete(final RuleDuplicateMediaAdvance rule) {
+
     final List<RuleDuplicateMediaAdvance> rules =
-        findAllFlux().filter(r -> r.getId().equals(rule.getId())).collectList().block();
+            findAll().filter(r -> r.getId().equals(rule.getId())).collect(Collectors.toList());
 
     rootRepository.store(rules);
 
