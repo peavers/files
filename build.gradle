@@ -61,7 +61,7 @@ javaProjects.each {
 				implementation 'commons-io:commons-io:2.8.0'
 
 				// Google
-				implementation 'com.google.guava:guava:30.0-jre'
+				implementation 'com.google.guava:guava:30.1-jre'
 
 				// Other
 				implementation 'one.util:streamex:0.7.3'
