@@ -57,7 +57,7 @@ javaProjects.each {
 				implementation 'org.springframework.boot:spring-boot-starter-webflux'
 
 				// Apache
-				implementation 'org.apache.commons:commons-lang3:3.11'
+				implementation 'org.apache.commons:commons-lang3:3.12.0'
 				implementation 'commons-io:commons-io:2.8.0'
 
 				// Google
